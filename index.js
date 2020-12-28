@@ -45,6 +45,26 @@ app.get("/weather/searchcity", async (req, res) => {
   }
 });
 
+app.post("/weather/details", async (req, res) => {
+  try {
+    // const { id } = req.params;
+    // console.log(id);
+    const { lat, lon } = req.fields;
+    console.log(lat);
+    console.log(lon);
+
+    const response = await axios.get(
+      // `https://api.openweathermap.org/data/2.5/forecast?units=metric&id=${id}&appid=${process.env.OPENWEATHER_API_KEY}`
+      `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&lang=fr&appid=${process.env.OPENWEATHER_API_KEY}`
+    );
+
+    return res.status(200).json(response.data);
+    // pro.openweathermap.org/data/2.5/forecast/hourly?id={city ID}&appid={API key}
+  } catch (err) {
+    return res.status(200).json({ error: err });
+  }
+});
+
 app.all("*", (req, res) => {
   return res.status(404).json({ error: "Page Not Found" });
 });
