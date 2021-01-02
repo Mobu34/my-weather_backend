@@ -17,7 +17,7 @@ app.get("/weather/currentposition", async (req, res) => {
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}`
     );
-    console.log(response.data);
+    // console.log(response.data);
 
     return res.status(200).json(response.data);
   } catch (err) {
@@ -42,6 +42,23 @@ app.get("/weather/searchcity", async (req, res) => {
     } else {
       return res.status(400).json({ error: err });
     }
+  }
+});
+
+app.post("/weather/favorites", async (req, res) => {
+  try {
+    const { favorites } = req.fields;
+    const splittedFavorites = favorites.join(",");
+
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/group?units=metric&id=${splittedFavorites}&appid=${process.env.OPENWEATHER_API_KEY}`
+    );
+
+    console.log(response.data);
+
+    return res.status(200).json(response.data);
+  } catch (err) {
+    return res.status(400).json({ error: err });
   }
 });
 
