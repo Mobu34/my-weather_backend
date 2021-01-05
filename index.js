@@ -8,8 +8,6 @@ const app = express();
 app.use(formidable());
 app.use(cors());
 
-// const coords = { lat: 43.5683328, lon: 3.8273024 };
-
 app.get("/weather/currentposition", async (req, res) => {
   try {
     const { lat, lon } = req.query;
@@ -17,7 +15,6 @@ app.get("/weather/currentposition", async (req, res) => {
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}`
     );
-    // console.log(response.data);
 
     return res.status(200).json(response.data);
   } catch (err) {
@@ -32,8 +29,6 @@ app.get("/weather/searchcity", async (req, res) => {
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${city}&appid=${process.env.OPENWEATHER_API_KEY}`
     );
-
-    console.log(response);
 
     return res.status(200).json(response.data);
   } catch (err) {
@@ -54,8 +49,6 @@ app.post("/weather/favorites", async (req, res) => {
       `https://api.openweathermap.org/data/2.5/group?units=metric&id=${splittedFavorites}&appid=${process.env.OPENWEATHER_API_KEY}`
     );
 
-    console.log(response.data);
-
     return res.status(200).json(response.data);
   } catch (err) {
     return res.status(400).json({ error: err });
@@ -64,19 +57,13 @@ app.post("/weather/favorites", async (req, res) => {
 
 app.post("/weather/details", async (req, res) => {
   try {
-    // const { id } = req.params;
-    // console.log(id);
     const { lat, lon } = req.fields;
-    console.log(lat);
-    console.log(lon);
 
     const response = await axios.get(
-      // `https://api.openweathermap.org/data/2.5/forecast?units=metric&id=${id}&appid=${process.env.OPENWEATHER_API_KEY}`
       `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&lang=fr&appid=${process.env.OPENWEATHER_API_KEY}`
     );
 
     return res.status(200).json(response.data);
-    // pro.openweathermap.org/data/2.5/forecast/hourly?id={city ID}&appid={API key}
   } catch (err) {
     return res.status(200).json({ error: err });
   }
