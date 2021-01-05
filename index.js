@@ -8,6 +8,7 @@ const app = express();
 app.use(formidable());
 app.use(cors());
 
+// route to get the weather for the current position of the user
 app.get("/weather/currentposition", async (req, res) => {
   try {
     const { lat, lon } = req.query;
@@ -22,6 +23,7 @@ app.get("/weather/currentposition", async (req, res) => {
   }
 });
 
+// route to get the weather for the searched city
 app.get("/weather/searchcity", async (req, res) => {
   try {
     const { city } = req.query;
@@ -40,6 +42,7 @@ app.get("/weather/searchcity", async (req, res) => {
   }
 });
 
+// route to get the weather for the cities in favorites
 app.post("/weather/favorites", async (req, res) => {
   try {
     const { favorites } = req.fields;
@@ -55,6 +58,7 @@ app.post("/weather/favorites", async (req, res) => {
   }
 });
 
+// route to get the weather's details of a specific city
 app.post("/weather/details", async (req, res) => {
   try {
     const { lat, lon } = req.fields;
